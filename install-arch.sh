@@ -73,6 +73,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 # Включение служб
 systemctl enable NetworkManager
 systemctl enable dbus-broker
+systemctl enable systemd-timesyncd
 EOF
 
 chmod +x /mnt/in-chroot.sh
