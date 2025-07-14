@@ -60,9 +60,9 @@ EOL
 
 # Пользователь
 useradd -mG wheel user
-echo "Задай пароль для root:"
+echo "Set the password for root:"
 passwd
-echo "Задай пароль для user:"
+echo "Set the password for user:"
 passwd user
 
 # Разрешение sudo для группы wheel
