@@ -29,7 +29,7 @@ mkdir /mnt/home
 mount /dev/vda4 /mnt/home
 
 # Установка базовой системы
-pacstrap -K /mnt base linux linux-firmware networkmanager sudo vim git grub efibootmgr
+pacstrap -K /mnt base base-devel linux linux-firmware networkmanager sudo vim git grub efibootmgr
 
 # Генерация fstab
 genfstab -U /mnt >> /mnt/etc/fstab
