@@ -29,7 +29,7 @@ mkdir /mnt/home
 mount /dev/vda4 /mnt/home
 
 # Ускоряем загрузку
-sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 15/' /mnt/etc/pacman.conf
+sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 15/' /etc/pacman.conf
 
 # Установка базовой системы
 pacstrap -K /mnt base base-devel linux linux-firmware networkmanager sudo vim git grub efibootmgr wget
