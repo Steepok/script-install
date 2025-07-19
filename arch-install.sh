@@ -60,10 +60,14 @@ EOL
 
 # Пользователь
 useradd -mG wheel user
-echo "Set the password for root:"
+#echo "Set the password for root:"
 passwd
-echo "Set the password for user:"
+1234567825
+1234567825
+#echo "Set the password for user:"
 passwd user
+123099
+123099
 
 # Разрешение sudo для группы wheel
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
@@ -85,11 +89,12 @@ arch-chroot /mnt /in-chroot.sh
 rm /mnt/in-chroot.sh
 
 # Обновление pacman
+pacman -Syu
 pacman -Sy
 
 # Загрузка скрипта установки окружения
-wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/hyprland-install.sh
-chmod +x hyprland-install.sh
+#wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/hyprland-install.sh
+#chmod +x hyprland-install.sh
 
 # Автоматическое размонтирование
 umount -R /mnt
