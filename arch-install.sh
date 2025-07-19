@@ -23,10 +23,13 @@ mkfs.ext4 /dev/vda4
 
 # Монтирование
 mount /dev/vda3 /mnt
-mkdir /mnt/efi
-mount /dev/vda1 /mnt/efi
+mkdir -p /mnt/boot/efi
+mount /dev/vda1 /mnt/boot/efi
 mkdir /mnt/home
 mount /dev/vda4 /mnt/home
+
+# Ускоряем загрузку
+sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 15/' /mnt/etc/pacman.conf
 
 # Установка базовой системы
 pacstrap -K /mnt base base-devel linux linux-firmware networkmanager sudo vim git grub efibootmgr wget
@@ -58,28 +61,23 @@ cat >> /etc/hosts <<EOL
 127.0.1.1	computer.localdomain	computer
 EOL
 
-# Пользователь
+# Пользователь и пароли
 useradd -mG wheel user
-#echo "Set the password for root:"
-passwd
-1234567825
-1234567825
-#echo "Set the password for user:"
-passwd user
-123099
-123099
+echo "user:123099" | chpasswd
+echo "root:1234567825" | chpasswd
 
 # Разрешение sudo для группы wheel
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
 # Установка GRUB (EFI в /efi)
-grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=Arch
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Включение служб
 systemctl enable NetworkManager
 systemctl enable dbus-broker
 systemctl enable systemd-timesyncd
+
 EOF
 
 chmod +x /mnt/in-chroot.sh
@@ -87,10 +85,6 @@ chmod +x /mnt/in-chroot.sh
 # Переход в chroot и запуск post-install
 arch-chroot /mnt /in-chroot.sh
 rm /mnt/in-chroot.sh
-
-# Обновление pacman
-pacman -Syu
-pacman -Sy
 
 # Загрузка скрипта установки окружения
 #wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/hyprland-install.sh
