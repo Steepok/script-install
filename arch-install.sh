@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-# Ускоряем загрузку пакетов
-sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 15/' /etc/pacman.conf
+# Увеличиваем кол-во одновременных загрузок
+sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
 
 # Синхронизация времени"
 timedatectl set-ntp true
@@ -42,6 +42,9 @@ cat > /mnt/in-chroot.sh <<"EOF"
 
 #!/bin/bash
 set -e
+
+# Увеличиваем кол-во одновременных загрузок
+sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
 
 # Обновление системы
 pacman -Syu --noconfirm
