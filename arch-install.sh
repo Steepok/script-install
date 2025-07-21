@@ -62,9 +62,9 @@ hwclock --systohc
 # Hostname и hosts
 echo "computer" > /etc/hostname
 cat >> /etc/hosts <<EOL
-127.0.0.1	localhost
-::1		localhost
-127.0.1.1	computer.localdomain	computer
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   computer.localdomain	computer
 EOL
 
 # Консольная русская раскладка
@@ -91,6 +91,10 @@ systemctl enable systemd-timesyncd
 # Полезные пакеты
 pacman -S --noconfirm kitty dolphin firefox
 
+# Загрузка скрипта последующей установки
+wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
+chmod +x hyprland-install.sh
+
 EOF
 
 chmod +x /mnt/in-chroot.sh
@@ -98,10 +102,6 @@ chmod +x /mnt/in-chroot.sh
 # Переход в chroot и запуск post-install
 arch-chroot /mnt /in-chroot.sh
 rm /mnt/in-chroot.sh
-
-# Загрузка скрипта установки окружения
-#wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/hyprland-install.sh
-#chmod +x hyprland-install.sh
 
 # Автоматическое размонтирование
 umount -R /mnt
