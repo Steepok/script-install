@@ -93,7 +93,7 @@ pacman -S --noconfirm kitty dolphin firefox
 
 # Загрузка скрипта последующей установки
 wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
-chmod +x hyprland-install.sh
+chmod +x post-install.sh
 
 EOF
 
