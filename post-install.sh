@@ -8,12 +8,6 @@ set -e
 # Обновление системы
 sudo pacman -Syu --noconfirm
 
-# Создание директорий пользователя
-xdg-user-dirs-update
-
-# Установка служб и утилит
-sudo pacman -S --noconfirm hyprland
-
 # Репозиторий AUR и yay
 git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
