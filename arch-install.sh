@@ -86,17 +86,25 @@ sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
+# Полезные пакеты
+pacman -S --noconfirm kitty firefox xdg-user-dirs hyprland hyprpaper hyprlock waybar thunar
+
+# Создание директорий пользователя
+xdg-user-dirs-update
+
+# Загрузка скрипта последующей установки
+cd /home/user
+wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
+chmod +x post-install.sh
+cd
+
+# Обновление системы
+sudo pacman -Syu --noconfirm
+
 # Включение служб
 systemctl enable NetworkManager
 systemctl enable dbus-broker
 systemctl enable systemd-timesyncd
-
-# Полезные пакеты
-pacman -S --noconfirm kitty dolphin firefox
-
-# Загрузка скрипта последующей установки
-wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
-chmod +x post-install.sh
 
 EOF
 
