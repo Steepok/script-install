@@ -49,6 +49,21 @@ sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
 # Обновление системы
 pacman -Syu --noconfirm
 
+# Раскомментировать multilib и Include
+sed -i '/^\[multilib\]/,/^Include/ s/^#//' /etc/pacman.conf
+pacman -Sy --noconfirm
+
+# Обновление зеркал
+pacman -Sy reflector --noconfirm
+reflector \
+  --country Russia,Finland,Sweden,Germany \
+  --age 12 \
+  --protocol https \
+  --sort rate \
+  --save /etc/pacman.d/mirrorlist
+
+pacman -Syy
+
 # Установка шрифтов
 pacman -S --noconfirm ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-hack-nerd
 
@@ -87,7 +102,19 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Полезные пакеты
-pacman -S --noconfirm kitty firefox xdg-user-dirs hyprland hyprpaper hyprlock waybar thunar
+pacman -S --noconfirm kitty firefox xdg-user-dirs hyprland hyprpaper hyprlock waybar thunar dbus-broker
+
+# Установка PipeWire и аудиосистемы
+pacman -S --noconfirm pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber pipewire-jack pipewire-bluetooth bluez bluez-utils
+USERNAME=user
+loginctl enable-linger "$USERNAME"
+USER_DIR="/home/$USERNAME/.config/systemd/user"
+mkdir -p "$USER_DIR/default.target.wants"
+ln -sf /usr/lib/systemd/user/pipewire.socket "$USER_DIR/default.target.wants/pipewire.socket"
+ln -sf /usr/lib/systemd/user/pipewire-pulse.socket "$USER_DIR/default.target.wants/pipewire-pulse.socket"
+ln -sf /usr/lib/systemd/user/wireplumber.service "$USER_DIR/default.target.wants/wireplumber.service"
+chown -R "$USERNAME:$USERNAME" "/home/$USERNAME/.config"
+cd
 
 # Создание директорий пользователя
 xdg-user-dirs-update
@@ -99,7 +126,7 @@ chmod +x post-install.sh
 cd
 
 # Обновление системы
-sudo pacman -Syu --noconfirm
+pacman -Syu --noconfirm
 
 # Включение служб
 systemctl enable NetworkManager
@@ -118,4 +145,4 @@ rm /mnt/in-chroot.sh
 umount -R /mnt
 
 # Автоматическая перезагрузка
-reboot      
+reboot
