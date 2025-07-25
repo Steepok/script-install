@@ -32,7 +32,7 @@ mkdir /mnt/home
 mount /dev/vda4 /mnt/home
 
 # Установка базовой системы
-pacstrap -K /mnt base base-devel linux linux-headers linux-firmware networkmanager sudo vim git grub efibootmgr wget
+pacstrap -K /mnt base base-devel linux linux-headers linux-firmware networkmanager sudo vim git grub efibootmgr wget curl
 
 # Генерация fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -102,7 +102,8 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Полезные пакеты
-pacman -S --noconfirm kitty firefox xdg-user-dirs hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi
+pacman -S --noconfirm kitty firefox xdg-user-dirs hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi \
+  xdg-utils gcc htop man man-db zip unzip openssh blueman wf-recorder xdg-desktop-portal-wlr rsync grim slurp
 
 # Установка PipeWire и аудиосистемы
 pacman -S --noconfirm pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber pipewire-jack pipewire-bluetooth bluez bluez-utils
@@ -132,6 +133,7 @@ pacman -Syu --noconfirm
 systemctl enable NetworkManager
 systemctl enable dbus-broker
 systemctl enable systemd-timesyncd
+systemctl enable bluetooth
 
 EOF
 
