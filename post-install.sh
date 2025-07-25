@@ -15,7 +15,16 @@ makepkg -si
 cd
 
 # Устаеовка tor-browser
-wget https://www.torproject.org/dist/torbrowser/14.5.4/tor-browser-linux-x86_64-14.5.4.tar.xz
-tar -xvf tor-browser-linux-x86_64-14.5.4.tar.xz
-rm tor-browser-linux-x86_64-14.5.4.tar.xz
+FILEID="1R5ojcF9MGElNC3W9R1NrLdI816wfefRi"
+FILENAME="tor-browser-linux-x86_64-14.5.5.tar.xz"
+wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$FILEID -O- \
+  | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' \
+  | xargs -I{} wget --load-cookies cookies.txt "https://docs.google.com/uc?export=download&confirm={}&id=$FILEID" -O $FILENAME
+rm -f cookies.txt
 
+tar -xvf "${FILENAME}"
+rm "${FILENAME}"
+
+# Обновление системы
+sudo pacman -Syu --noconfirm
+yay
