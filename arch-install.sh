@@ -102,7 +102,7 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Полезные пакеты
-pacman -S --noconfirm kitty firefox xdg-user-dirs hyprland hyprpaper hyprlock waybar thunar dbus-broker
+pacman -S --noconfirm kitty firefox xdg-user-dirs hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi
 
 # Установка PipeWire и аудиосистемы
 pacman -S --noconfirm pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber pipewire-jack pipewire-bluetooth bluez bluez-utils
