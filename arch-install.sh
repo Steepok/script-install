@@ -31,14 +31,6 @@ mount /dev/vda1 /mnt/boot/efi
 mkdir /mnt/home
 mount /dev/vda4 /mnt/home
 
-# Обновление зеркал
-pacman -Sy reflector --noconfirm
-reflector --country Russia,Finland,Sweden,Germany \
-  --age 12 --protocol https --sort rate \
-  --save /etc/pacman.d/mirrorlist
-
-pacman -Syy
-
 # Установка базовой системы
 pacstrap -K /mnt base base-devel linux linux-headers linux-firmware networkmanager sudo vim git grub efibootmgr wget curl
 
@@ -112,7 +104,7 @@ xdg-user-dirs-update
 # Пакеты
 pacman -S --noconfirm \
   kitty firefox hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi grim slurp \
-  xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync \
+  xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync reflector \
   pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \
   obs-studio ffmpeg x264 qt6-wayland libxcomposite libva libvdpau v4l2loopback-dkms xdg-desktop-portal xdg-desktop-portal-hyprland
 
@@ -130,7 +122,6 @@ systemctl enable NetworkManager
 systemctl enable dbus-broker
 systemctl enable systemd-timesyncd
 systemctl enable bluetooth
-systemctl enable reflector.timer
 
 # Включение служб PipeWire и аудиосистемы
 USERNAME=user
