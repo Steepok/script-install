@@ -59,7 +59,8 @@ set -e
 # Увеличиваем кол-во одновременных загрузок
 sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
 
-# Обновление системы
+# Обновление системы и установка base-devel
+pacman -S --noconfirm base-devel
 pacman -Syu --noconfirm
 
 # Раскомментировать multilib и Include
@@ -114,10 +115,10 @@ xdg-user-dirs-update
 
 # Пакеты
 pacman -S --noconfirm \ 
-  kitty firefox hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi grim slurp \ # Окружение и доп пакеты у нему
-  xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync \ # Всякое полезное
-  pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \ # Установка PipeWire и аудиосистемы
-  obs-studio ffmpeg x264 qt6-wayland libxcomposite libva libvdpau v4l2loopback-dkms xdg-desktop-portal xdg-desktop-portal-hyprland # Установка obs-studio
+  kitty firefox hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi grim slurp \  # Окружение и доп пакеты у нему
+  xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync \  # Всякое полезное
+  pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \  # Установка PipeWire и аудиосистемы
+  obs-studio ffmpeg x264 qt6-wayland libxcomposite libva libvdpau v4l2loopback-dkms xdg-desktop-portal xdg-desktop-portal-hyprland  # Установка obs-studio
 
 # Обновление системы
 pacman -Syu --noconfirm
@@ -126,7 +127,7 @@ pacman -Syu --noconfirm
 cd /home/user
 git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
-makepkg -si
+makepkg -si --noconfirm
 cd /
 
 # Обновление системы
@@ -146,6 +147,7 @@ wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='
 rm -f cookies.txt
 tar -xvf "${FILENAME}"
 rm "${FILENAME}"
+chown -R user:user /home/user/tor-browser*
 cd /
 
 ###################################################
