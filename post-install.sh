@@ -8,6 +8,13 @@ set -e
 # Обновление системы
 sudo pacman -Syu --noconfirm
 
+# Обновление зеркал
+sudo systemctl enable --now reflector.timer
+reflector --country Russia,Finland,Sweden,Germany \
+  --age 12 --protocol https --sort rate \
+  --save /etc/pacman.d/mirrorlist
+pacman -Syy
+
 # Репозиторий AUR и yay
 git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
