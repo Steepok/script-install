@@ -51,6 +51,11 @@ cat > /mnt/in-chroot.sh <<"EOF"
 #!/bin/bash
 set -e
 
+###################################################
+############### БАЗОВАЯ СИСТЕМА ###################
+###################################################
+
+
 # Увеличиваем кол-во одновременных загрузок
 sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
 
@@ -98,8 +103,63 @@ sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# Установка PipeWire и аудиосистемы
-pacman -S --noconfirm pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils
+###################################################
+############# ДОПОЛНИТЕЛЬНЫЕ ПАКЕТЫ ###############
+###################################################
+
+
+# Создание директорий пользователя
+xdg-user-dirs-update
+
+# Пакеты
+pacman -S --noconfirm kitty firefox xdg-user-dirs hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi grim slurp \
+  xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync \
+  pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \ # Установка PipeWire и аудиосистемы
+  obs-studio ffmpeg x264 qt6-wayland libxcomposite libva libvdpau v4l2loopback-dkms xdg-desktop-portal xdg-desktop-portal-hyprland # Установка obs-studio
+
+# Обновление системы
+pacman -Syu --noconfirm
+
+# Репозиторий AUR и yay
+cd /home/user
+git clone https://aur.archlinux.org/yay-bin.git
+cd yay-bin
+makepkg -si
+cd /
+
+
+# Обновление системы
+pacman -Syu --noconfirm
+yay
+
+# Службы для obs-studio
+yay -S --noconfirm obs-vkcapture obs-pipewire-audio-capture obs-move-transition obs-backgroundremoval
+
+# Устаеовка tor-browser
+cd /home/user
+FILEID="1R5ojcF9MGElNC3W9R1NrLdI816wfefRi"
+FILENAME="tor-browser-linux-x86_64-14.5.5.tar.xz"
+wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$FILEID -O- \
+  | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' \
+  | xargs -I{} wget --load-cookies cookies.txt "https://docs.google.com/uc?export=download&confirm={}&id=$FILEID" -O $FILENAME
+rm -f cookies.txt
+tar -xvf "${FILENAME}"
+rm "${FILENAME}"
+cd /
+
+###################################################
+################ ВКЛЮЧЕНИЕ СЛУЖБ ##################
+###################################################
+
+
+# Включение служб
+systemctl enable NetworkManager
+systemctl enable dbus-broker
+systemctl enable systemd-timesyncd
+systemctl enable bluetooth
+systemctl enable reflector.timer
+
+# Включение служб PipeWire и аудиосистемы
 USERNAME=user
 loginctl enable-linger "$USERNAME"
 USER_DIR="/home/$USERNAME/.config/systemd/user"
@@ -108,33 +168,7 @@ ln -sf /usr/lib/systemd/user/pipewire.socket "$USER_DIR/default.target.wants/pip
 ln -sf /usr/lib/systemd/user/pipewire-pulse.socket "$USER_DIR/default.target.wants/pipewire-pulse.socket"
 ln -sf /usr/lib/systemd/user/wireplumber.service "$USER_DIR/default.target.wants/wireplumber.service"
 chown -R "$USERNAME:$USERNAME" "/home/$USERNAME/.config"
-cd
-
-# Полезные пакеты
-pacman -S --noconfirm kitty firefox xdg-user-dirs hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi \
-  xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync grim slurp
-  
-# Установка obs-studio
-pacman -S --noconfirm obs-studio ffmpeg x264 qt6-wayland libxcomposite libva libvdpau v4l2loopback-dkms xdg-desktop-portal xdg-desktop-portal-hyprland
-
-# Создание директорий пользователя
-xdg-user-dirs-update
-
-# Загрузка скрипта последующей установки
-cd /home/user
-wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
-chmod +x post-install.sh
-cd
-
-# Обновление системы
-pacman -Syu --noconfirm
-
-# Включение служб
-systemctl enable NetworkManager
-systemctl enable dbus-broker
-systemctl enable systemd-timesyncd
-systemctl enable bluetooth
-systemctl enable reflector.timer
+cd /
 
 EOF
 
