@@ -88,10 +88,6 @@ cat >> /etc/hosts <<EOL
 127.0.1.1   computer.localdomain	computer
 EOL
 
-# Консольная русская раскладка
-echo "KEYMAP=ru" > /etc/vconsole.conf
-echo "FONT=cyr-sun16" >> /etc/vconsole.conf
-
 # Пользователь и пароли
 useradd -mG wheel user
 echo "user:123099" | chpasswd
