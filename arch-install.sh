@@ -103,17 +103,19 @@ sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
+# Создание директорий пользователя
+pacman -S --noconfirm xdg-utils
+xdg-user-dirs-update
+
 ###################################################
 ############# ДОПОЛНИТЕЛЬНЫЕ ПАКЕТЫ ###############
 ###################################################
 
 
-# Создание директорий пользователя
-xdg-user-dirs-update
-
 # Пакеты
-pacman -S --noconfirm kitty firefox xdg-user-dirs hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi grim slurp \
-  xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync \
+pacman -S --noconfirm \ 
+  kitty firefox xdg-user-dirs hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi grim slurp \ # Окружение и доп пакеты у нему
+  gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync \ # Всякое полезное
   pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \ # Установка PipeWire и аудиосистемы
   obs-studio ffmpeg x264 qt6-wayland libxcomposite libva libvdpau v4l2loopback-dkms xdg-desktop-portal xdg-desktop-portal-hyprland # Установка obs-studio
 
