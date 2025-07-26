@@ -114,7 +114,7 @@ xdg-user-dirs-update
 
 
 # Пакеты
-pacman -S --noconfirm \ 
+pacman -S --noconfirm \
   kitty firefox hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi grim slurp \  # Окружение и доп пакеты у нему
   xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync \  # Всякое полезное
   pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \  # Установка PipeWire и аудиосистемы
