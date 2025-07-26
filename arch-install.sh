@@ -135,7 +135,6 @@ sudo -u user bash -c '
 
 # Обновление системы
 pacman -Syu --noconfirm
-yay
 
 # Установка служб для obs-studio
 yay -S --noconfirm obs-vkcapture obs-pipewire-audio-capture obs-move-transition obs-backgroundremoval
