@@ -108,37 +108,20 @@ pacman -S --noconfirm \
   pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \
   obs-studio ffmpeg x264 qt6-wayland libxcomposite libva libvdpau v4l2loopback-dkms xdg-desktop-portal xdg-desktop-portal-hyprland
 
-
-# Обновление системы
-pacman -Syu --noconfirm
-
-###################################################
-################ ВКЛЮЧЕНИЕ СЛУЖБ ##################
-###################################################
-
-
 # Включение служб
 systemctl enable NetworkManager
 systemctl enable dbus-broker
 systemctl enable systemd-timesyncd
 systemctl enable bluetooth
 
-# Включение служб PipeWire и аудиосистемы
-USERNAME=user
-loginctl enable-linger "$USERNAME"
-USER_DIR="/home/$USERNAME/.config/systemd/user"
-mkdir -p "$USER_DIR/default.target.wants"
-ln -sf /usr/lib/systemd/user/pipewire.socket "$USER_DIR/default.target.wants/pipewire.socket"
-ln -sf /usr/lib/systemd/user/pipewire-pulse.socket "$USER_DIR/default.target.wants/pipewire-pulse.socket"
-ln -sf /usr/lib/systemd/user/wireplumber.service "$USER_DIR/default.target.wants/wireplumber.service"
-chown -R "$USERNAME:$USERNAME" "/home/$USERNAME/.config"
-cd /
-
 # Загрузка скрипта пост установки
 cd /home/user
 wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
-chnod +x post-install.sh
+chmod +x post-install.sh
 cd /
+
+# Обновление системы
+pacman -Syu --noconfirm
 
 EOF
 
