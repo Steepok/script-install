@@ -116,18 +116,6 @@ pacman -S --noconfirm \
   pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \
   obs-studio ffmpeg x264 qt6-wayland libxcomposite libva libvdpau v4l2loopback-dkms xdg-desktop-portal xdg-desktop-portal-hyprland
 
-# Установка tor-browser
-cd /home/user
-FILEID="1R5ojcF9MGElNC3W9R1NrLdI816wfefRi"
-FILENAME="tor-browser-linux-x86_64-14.5.5.tar.xz"
-wget --save-cookies cookies.txt 'https://docs.google.com/uc?export=download&id='$FILEID -O- \
-  | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1/p' \
-  | xargs -I{} wget --load-cookies cookies.txt "https://docs.google.com/uc?export=download&confirm={}&id=$FILEID" -O $FILENAME
-rm -f cookies.txt
-tar -xvf "${FILENAME}"
-rm "${FILENAME}"
-chown -R user:user /home/user/tor-browser*
-cd /
 
 # Обновление системы
 pacman -Syu --noconfirm
