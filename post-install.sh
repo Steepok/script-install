@@ -28,3 +28,6 @@ rm "${FILENAME}"
 # Обновление системы
 sudo pacman -Syu --noconfirm
 yay
+
+# Службы для obs-studio
+yay -S --noconfirm obs-vkcapture obs-pipewire-audio-capture obs-move-transition obs-backgroundremoval
