@@ -124,11 +124,14 @@ pacman -S --noconfirm \
 pacman -Syu --noconfirm
 
 # Репозиторий AUR и yay
-cd /home/user
-git clone https://aur.archlinux.org/yay-bin.git
-cd yay-bin
-makepkg -si --noconfirm
-cd /
+sudo -u user bash -c '
+  cd /home/user
+  git clone https://aur.archlinux.org/yay-bin.git
+  cd yay-bin
+  makepkg -si --noconfirm
+  cd ..
+  rm -rf yay-bin
+'
 
 # Обновление системы
 pacman -Syu --noconfirm
