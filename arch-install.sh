@@ -116,29 +116,7 @@ pacman -S --noconfirm \
   pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \
   obs-studio ffmpeg x264 qt6-wayland libxcomposite libva libvdpau v4l2loopback-dkms xdg-desktop-portal xdg-desktop-portal-hyprland
 
-# Обновление системы
-pacman -Syu --noconfirm
-
-# Репозиторий AUR и yay
-echo "user ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/00-nopasswd
-sudo -u user bash -c '
-  cd /home/user
-  git clone https://aur.archlinux.org/yay-bin.git
-  cd yay-bin
-  makepkg -si --noconfirm
-  cd ..
-  rm -rf yay-bin
-'
-
-# Установка AUR-пакетов для obs-studio от имени user
-sudo -u user bash -c '
-  sudo -v
-  yay -S --noconfirm \
-    obs-vkcapture obs-pipewire-audio-capture obs-move-transition obs-backgroundremoval
-'
-rm /etc/sudoers.d/00-nopasswd
-
-# Устаеовка tor-browser
+# Установка tor-browser
 cd /home/user
 FILEID="1R5ojcF9MGElNC3W9R1NrLdI816wfefRi"
 FILENAME="tor-browser-linux-x86_64-14.5.5.tar.xz"
@@ -175,6 +153,12 @@ ln -sf /usr/lib/systemd/user/pipewire.socket "$USER_DIR/default.target.wants/pip
 ln -sf /usr/lib/systemd/user/pipewire-pulse.socket "$USER_DIR/default.target.wants/pipewire-pulse.socket"
 ln -sf /usr/lib/systemd/user/wireplumber.service "$USER_DIR/default.target.wants/wireplumber.service"
 chown -R "$USERNAME:$USERNAME" "/home/$USERNAME/.config"
+cd /
+
+# Загрузка скрипта пост установки
+cd /home/user
+wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
+chnod +x post-install.sh
 cd /
 
 EOF
