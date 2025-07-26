@@ -4,7 +4,7 @@ set -e
 # Увеличиваем кол-во одновременных загрузок
 sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
 
-# Синхронизация времени"
+# Синхронизация времени
 timedatectl set-ntp true
 
 # Очистка диска /dev/vda
