@@ -127,12 +127,11 @@ cd yay-bin
 makepkg -si
 cd /
 
-
 # Обновление системы
 pacman -Syu --noconfirm
 yay
 
-# Службы для obs-studio
+# Установка служб для obs-studio
 yay -S --noconfirm obs-vkcapture obs-pipewire-audio-capture obs-move-transition obs-backgroundremoval
 
 # Устаеовка tor-browser
