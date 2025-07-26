@@ -56,7 +56,8 @@ pacman -S --noconfirm base-devel
 pacman -Syu --noconfirm
 
 # Раскомментировать multilib и Include
-sed -i '/^\[multilib\]/,/^Include/ s/^#//' /etc/pacman.conf
+sed -i 's/^#[multilib]/[multilib]/' /etc/pacman.conf
+sed -i 's|^#Include = /etc/pacman.d/mirrorlist|Include = /etc/pacman.d/mirrorlist|' /etc/pacman.conf
 pacman -Sy --noconfirm
 
 # Установка шрифтов
@@ -113,6 +114,7 @@ systemctl enable NetworkManager
 systemctl enable dbus-broker
 systemctl enable systemd-timesyncd
 systemctl enable bluetooth
+systemctl enable reflector.timer
 
 # Загрузка скрипта пост установки
 cd /home/user
