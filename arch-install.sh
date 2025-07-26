@@ -31,6 +31,14 @@ mount /dev/vda1 /mnt/boot/efi
 mkdir /mnt/home
 mount /dev/vda4 /mnt/home
 
+# Обновление зеркал
+pacman -Sy reflector --noconfirm
+reflector --country Russia,Finland,Sweden,Germany \
+  --age 12 --protocol https --sort rate \
+  --save /etc/pacman.d/mirrorlist
+
+pacman -Syy
+
 # Установка базовой системы
 pacstrap -K /mnt base base-devel linux linux-headers linux-firmware networkmanager sudo vim git grub efibootmgr wget curl
 
@@ -52,17 +60,6 @@ pacman -Syu --noconfirm
 # Раскомментировать multilib и Include
 sed -i '/^\[multilib\]/,/^Include/ s/^#//' /etc/pacman.conf
 pacman -Sy --noconfirm
-
-# Обновление зеркал
-pacman -Sy reflector --noconfirm
-reflector \
-  --country Russia,Finland,Sweden,Germany \
-  --age 12 \
-  --protocol https \
-  --sort rate \
-  --save /etc/pacman.d/mirrorlist
-
-pacman -Syy
 
 # Установка шрифтов
 pacman -S --noconfirm ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-hack-nerd
@@ -106,7 +103,7 @@ pacman -S --noconfirm kitty firefox xdg-user-dirs hyprland hyprpaper hyprlock wa
   xdg-utils gcc htop man man-db zip unzip openssh blueman wf-recorder xdg-desktop-portal-wlr rsync grim slurp
 
 # Установка PipeWire и аудиосистемы
-pacman -S --noconfirm pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber pipewire-jack pipewire-bluetooth bluez bluez-utils
+pacman -S --noconfirm pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber pipewire-jack bluez bluez-utils
 USERNAME=user
 loginctl enable-linger "$USERNAME"
 USER_DIR="/home/$USERNAME/.config/systemd/user"
@@ -134,6 +131,7 @@ systemctl enable NetworkManager
 systemctl enable dbus-broker
 systemctl enable systemd-timesyncd
 systemctl enable bluetooth
+systemctl enable reflector.timer
 
 EOF
 
