@@ -5,21 +5,31 @@ set -e
 #123099 #Пароль
 #%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/pacman
 
+
+echo "user ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/00-user-nopasswd
+
 # Обновление системы
 sudo pacman -Syu --noconfirm
 
-# Обновление зеркал
+# # Включение служб
 sudo systemctl enable --now reflector.timer
+sudo systemctl --user enable --now pipewire.socket
+sudo systemctl --user enable --now pipewire-pulse.socket
+sudo systemctl --user enable --now wireplumber.service
+
+# Обновление зеркал
 reflector --country Russia,Finland,Sweden,Germany \
   --age 12 --protocol https --sort rate \
   --save /etc/pacman.d/mirrorlist
 pacman -Syy
 
 # Репозиторий AUR и yay
+cd
 git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
-makepkg -si
+makepkg -si --noconfirm
 cd
+rm yay-bin
 
 # Устаеовка tor-browser
 FILEID="1R5ojcF9MGElNC3W9R1NrLdI816wfefRi"
@@ -31,6 +41,7 @@ rm -f cookies.txt
 
 tar -xvf "${FILENAME}"
 rm "${FILENAME}"
+chown -R user:user tor-browser*
 
 # Обновление системы
 sudo pacman -Syu --noconfirm
@@ -38,3 +49,5 @@ yay
 
 # Службы для obs-studio
 yay -S --noconfirm obs-vkcapture obs-pipewire-audio-capture obs-move-transition obs-backgroundremoval
+
+rm /etc/sudoers.d/00-user-nopasswd
