@@ -120,7 +120,7 @@ pacman -S --noconfirm \
 pacman -Syu --noconfirm
 
 # Репозиторий AUR и yay
-echo "user ALL=(ALL) NOPASSWD: /usr/bin/pacman" > /etc/sudoers.d/00-pacman-nopasswd
+echo "user ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/00-nopasswd
 sudo -u user bash -c '
   cd /home/user
   git clone https://aur.archlinux.org/yay-bin.git
@@ -136,7 +136,7 @@ sudo -u user bash -c '
   yay -S --noconfirm \
     obs-vkcapture obs-pipewire-audio-capture obs-move-transition obs-backgroundremoval
 '
-rm /etc/sudoers.d/00-pacman-nopasswd
+rm /etc/sudoers.d/00-nopasswd
 
 # Устаеовка tor-browser
 cd /home/user
