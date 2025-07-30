@@ -56,9 +56,9 @@ pacman -S --noconfirm base-devel
 pacman -Syu --noconfirm
 
 # Раскомментировать multilib и Include
-sed -i 's/^#[multilib]/[multilib]/' /etc/pacman.conf
-sed -i 's|^#Include = /etc/pacman.d/mirrorlist|Include = /etc/pacman.d/mirrorlist|' /etc/pacman.conf
-pacman -Sy --noconfirm
+#sed -i 's/^#[multilib]/[multilib]/' /etc/pacman.conf
+#sed -i 's|^#Include = /etc/pacman.d/mirrorlist|Include = /etc/pacman.d/mirrorlist|' /etc/pacman.conf
+#pacman -Sy --noconfirm
 
 # Установка шрифтов
 pacman -S --noconfirm ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-hack-nerd
