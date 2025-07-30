@@ -8,28 +8,28 @@ sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
 timedatectl set-ntp true
 
 # Очистка диска /dev/vda
-wipefs --all /dev/vda
+wipefs --all /dev/nvme0n1
 
 # Разметка GPT через sgdisk
-/usr/bin/sgdisk -Z /dev/vda
-/usr/bin/sgdisk -n 1:0:+512MiB -t 1:ef00 /dev/vda  # EFI
-/usr/bin/sgdisk -n 2:0:+5632MiB -t 2:8200 /dev/vda # Swap
-/usr/bin/sgdisk -n 3:0:+25600MiB -t 3:8300 /dev/vda # /
-/usr/bin/sgdisk -n 4:0:0 -t 4:8300 /dev/vda         # /home
+/usr/bin/sgdisk -Z /dev/nvme0n1
+/usr/bin/sgdisk -n 1:0:+512MiB -t 1:ef00 /dev/nvme0n1     # EFI 0.5GB
+/usr/bin/sgdisk -n 2:0:+16384MiB -t 2:8200 /dev/nvme0n1   # Swap 16GB
+/usr/bin/sgdisk -n 3:0:+102400MiB -t 3:8300 /dev/nvme0n1  # / 100GB
+/usr/bin/sgdisk -n 4:0:0 -t 4:8300 /dev/nvme0n1           # /home ~350GB
 
 # Форматирование
-mkfs.vfat /dev/vda1
-mkswap /dev/vda2
-swapon /dev/vda2
-mkfs.ext4 /dev/vda3
-mkfs.ext4 /dev/vda4
+mkfs.vfat /dev/nvme0n1p1
+mkswap /dev/nvme0n1p2
+swapon /dev/nvme0n1p2
+mkfs.ext4 /dev/nvme0n1p3
+mkfs.ext4 /dev/nvme0n1p4
 
 # Монтирование
-mount /dev/vda3 /mnt
+mount /dev/nvme0n1p3 /mnt
 mkdir -p /mnt/boot/efi
-mount /dev/vda1 /mnt/boot/efi
+mount /dev/nvme0n1p1 /mnt/boot/efi
 mkdir /mnt/home
-mount /dev/vda4 /mnt/home
+mount /dev/nvme0n1p4 /mnt/home
 
 # Установка базовой системы
 pacstrap -K /mnt base base-devel linux linux-headers linux-firmware networkmanager sudo vim git grub efibootmgr wget curl
