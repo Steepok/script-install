@@ -18,7 +18,7 @@ wipefs --all /dev/nvme0n1
 /usr/bin/sgdisk -n 4:0:0 -t 4:8300 /dev/nvme0n1           # /home ~350GB
 
 # Форматирование
-mkfs.vfat /dev/nvme0n1p1
+mkfs.vfat -F32 /dev/nvme0n1p1
 mkswap /dev/nvme0n1p2
 swapon /dev/nvme0n1p2
 mkfs.ext4 /dev/nvme0n1p3
