@@ -117,10 +117,10 @@ systemctl enable bluetooth
 systemctl enable reflector.timer
 
 # Загрузка скрипта пост установки
-cd /home/user
-wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
-chmod +x post-install.sh
-cd /
+#cd /home/user
+#wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
+#chmod +x post-install.sh
+#cd /
 
 # Обновление системы
 pacman -Syu --noconfirm
