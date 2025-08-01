@@ -43,6 +43,7 @@ cat > /mnt/in-chroot.sh <<"EOF"
 #!/bin/bash
 set -e
 
+
 ###################################################
 ############### БАЗОВАЯ СИСТЕМА ###################
 ###################################################
@@ -51,17 +52,9 @@ set -e
 # Увеличиваем кол-во одновременных загрузок
 sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
 
-# Обновление системы и установка base-devel
-pacman -S --noconfirm base-devel
-pacman -Syu --noconfirm
-
-# Раскомментировать multilib и Include
-#sed -i 's/^#[multilib]/[multilib]/' /etc/pacman.conf
-#sed -i 's|^#Include = /etc/pacman.d/mirrorlist|Include = /etc/pacman.d/mirrorlist|' /etc/pacman.conf
-#pacman -Sy --noconfirm
-
-# Установка шрифтов
-pacman -S --noconfirm ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-hack-nerd
+# Консольная русская раскладка
+echo "KEYMAP=ru" > /etc/vconsole.conf
+echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 
 # Локализация
 sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
@@ -93,9 +86,6 @@ sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Arch
 grub-mkconfig -o /boot/grub/grub.cfg
 
-# Создание директорий пользователя
-pacman -S --noconfirm xdg-user-dirs
-xdg-user-dirs-update
 
 ###################################################
 ############# ДОПОЛНИТЕЛЬНЫЕ ПАКЕТЫ ###############
@@ -105,22 +95,28 @@ xdg-user-dirs-update
 # Пакеты
 pacman -S --noconfirm \
   kitty firefox hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi grim slurp \
-  xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync reflector \
+  xdg-user-dirs xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync \
   pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \
-  obs-studio ffmpeg x264 qt6-wayland libxcomposite libva libvdpau v4l2loopback-dkms xdg-desktop-portal xdg-desktop-portal-hyprland
+  xdg-desktop-portal xdg-desktop-portal-hyprland \
+  ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-hack-nerd
+
+# Создание директорий пользователя
+xdg-user-dirs-update
 
 # Включение служб
 systemctl enable NetworkManager
 systemctl enable dbus-broker
 systemctl enable systemd-timesyncd
 systemctl enable bluetooth
-systemctl enable reflector.timer
 
 # Загрузка скрипта пост установки
-#cd /home/user
-#wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
-#chmod +x post-install.sh
-#cd /
+cd /home/user
+wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
+chmod +x post-install.sh
+
+#Ссылка на tor
+echo "https://drive.google.com/file/d/17C43hHY6yrOA3G-EspPukAmvjhSIZ_I9/view?usp=sharing" > a.txt
+cd /
 
 # Обновление системы
 pacman -Syu --noconfirm
