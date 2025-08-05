@@ -32,7 +32,7 @@ mkdir /mnt/home
 mount /dev/nvme0n1p4 /mnt/home
 
 # Установка базовой системы
-pacstrap -K /mnt base base-devel linux linux-headers linux-firmware networkmanager sudo vim git grub efibootmgr wget curl
+pacstrap -K /mnt base base-devel linux linux-headers linux-firmware networkmanager sudo nvim git grub efibootmgr wget curl
 
 # Генерация fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -94,9 +94,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # Пакеты
 pacman -S --noconfirm \
-  kitty firefox hyprland
+  kitty firefox hyprland gcc htop
 
-#xdg-user-dirs xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync
+#xdg-user-dirs xdg-utils man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync
 #pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils
 #xdg-desktop-portal xdg-desktop-portal-hyprland
 #ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-hack-nerd
