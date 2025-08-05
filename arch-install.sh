@@ -60,7 +60,7 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
 sed -i 's/^#ru_RU.UTF-8/ru_RU.UTF-8/' /etc/locale.gen
 locale-gen
-echo "LANG=en_US.UTF-8" > /etc/locale.conf
+echo "LANG=ru_RU.UTF-8" > /etc/locale.conf
 
 # Часовой пояс, время
 ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
@@ -94,25 +94,26 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # Пакеты
 pacman -S --noconfirm \
-  kitty firefox hyprland hyprpaper hyprlock waybar thunar dbus-broker wofi grim slurp \
-  xdg-user-dirs xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync \
-  pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \
-  xdg-desktop-portal xdg-desktop-portal-hyprland \
-  ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-hack-nerd
+  kitty firefox hyprland
+
+#xdg-user-dirs xdg-utils gcc htop man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync
+#pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils
+#xdg-desktop-portal xdg-desktop-portal-hyprland
+#ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-hack-nerd
 
 # Создание директорий пользователя
-xdg-user-dirs-update
+#xdg-user-dirs-update
 
 # Включение служб
 systemctl enable NetworkManager
-systemctl enable dbus-broker
-systemctl enable systemd-timesyncd
-systemctl enable bluetooth
+#systemctl enable dbus-broker
+#systemctl enable systemd-timesyncd
+#systemctl enable bluetooth
 
 # Загрузка скрипта пост установки
-cd /home/user
-wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
-chmod +x post-install.sh
+#cd /home/user
+#wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
+#chmod +x post-install.sh
 
 #Ссылка на tor
 echo "https://drive.google.com/file/d/17C43hHY6yrOA3G-EspPukAmvjhSIZ_I9/view?usp=sharing" > a.txt
