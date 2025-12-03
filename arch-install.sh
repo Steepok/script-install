@@ -94,7 +94,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # Пакеты
 pacman -S --noconfirm \
-  kitty firefox hyprland gcc htop
+  kitty firefox hyprland gcc htop vim flatpak
 
 #xdg-user-dirs xdg-utils man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync
 #pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils
