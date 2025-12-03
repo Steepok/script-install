@@ -116,7 +116,7 @@ systemctl enable NetworkManager
 #chmod +x post-install.sh
 
 #Ссылка на tor
-echo "https://drive.google.com/file/d/17C43hHY6yrOA3G-EspPukAmvjhSIZ_I9/view?usp=sharing" > a.txt
+echo "https://drive.google.com/file/d/1q-3bsZREJbUNUsdhfLbudJV4YFmyz2uC/view?usp=sharing" > a.txt
 cd /
 
 # Обновление системы
