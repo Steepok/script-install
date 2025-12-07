@@ -120,7 +120,7 @@ systemctl enable NetworkManager
 systemctl enable seatd
 systemctl enable systemd-timesyncd
 # bluetooth включай если нужно:
-systemctl enable bluetooth
+# systemctl enable bluetooth
 
 # Обновление пакетов
 pacman -Syu --noconfirm
