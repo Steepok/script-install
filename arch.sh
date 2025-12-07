@@ -30,18 +30,18 @@ sgdisk -n 3:0:${ROOT_SIZE}  -t 3:8300 "${DEVICE}"   # / (root)
 sgdisk -n 4:0:0            -t 4:8300 "${DEVICE}"   # /home (оставшееся)
 
 # Форматирование
-mkfs.vfat -F32 "${DEVICE}p1"
-mkswap "${DEVICE}p2"
-swapon "${DEVICE}p2"
-mkfs.ext4 "${DEVICE}p3"
-mkfs.ext4 "${DEVICE}p4"
+mkfs.vfat -F32 "${DEVICE}1"
+mkswap "${DEVICE}2"
+swapon "${DEVICE}2"
+mkfs.ext4 -F "${DEVICE}3"
+mkfs.ext4 -F "${DEVICE}4"
 
 # Монтирование
-mount "${DEVICE}p3" /mnt
+mount "${DEVICE}3" /mnt
 mkdir -p /mnt/boot/efi
-mount "${DEVICE}p1" /mnt/boot/efi
+mount "${DEVICE}1" /mnt/boot/efi
 mkdir -p /mnt/home
-mount "${DEVICE}p4" /mnt/home
+mount "${DEVICE}4" /mnt/home
 
 ###############################################################################
 # Установка базовой системы и пакетов (включая Hyprland и зависимости)
