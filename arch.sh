@@ -33,8 +33,8 @@ sgdisk -n 4:0:0            -t 4:8300 "${DEVICE}"   # /home (оставшееся
 mkfs.vfat -F32 "${DEVICE}p1"
 mkswap "${DEVICE}p2"
 swapon "${DEVICE}p2"
-mkfs.ext4 -F "${DEVICE}p3"
-mkfs.ext4 -F "${DEVICE}p4"
+mkfs.ext4 -F32 "${DEVICE}p3"
+mkfs.ext4 -F32 "${DEVICE}p4"
 
 # Монтирование
 mount "${DEVICE}p3" /mnt
