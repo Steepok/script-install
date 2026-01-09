@@ -92,7 +92,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 pacman -Syu --noconfirm
 
 # Пакеты
-pacman -S --noconfirm --reinstalling \
+pacman -S --noconfirm \
   kitty firefox hyprland htop flatpak \
   xdg-user-dirs xdg-utils man man-db zip unzip openssh blueman rsync \
   pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \
