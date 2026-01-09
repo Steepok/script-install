@@ -92,14 +92,14 @@ grub-mkconfig -o /boot/grub/grub.cfg
 pacman -Syu --noconfirm
 
 # Пакеты
-pacman -S --noconfirm \
+pacman -S --noconfirm --reinstalling \
   kitty firefox hyprland htop flatpak \
   xdg-user-dirs xdg-utils man man-db zip unzip openssh blueman rsync \
   pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \
   xdg-desktop-portal xdg-desktop-portal-hyprland \
   ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-hack-nerd \
   mesa seatd waybar reflector dbus-broker polkit \
-  vulkan-radeon libva-mesa-driver mesa-vdpau
+  vulkan-radeon libva-mesa-driver
 
 # Создание директорий пользователя
 runuser -l user -c xdg-user-dirs-update
