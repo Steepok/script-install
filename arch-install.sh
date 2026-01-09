@@ -8,7 +8,7 @@ sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
 timedatectl set-ntp true
 
 # Разметка GPT через sgdisk
-/usr/bin/sgdisk -Z /dev/vda
+/usr/bin/sgdisk -Z /dev/nvme0n1
 /usr/bin/sgdisk -n 1:0:+512MiB -t 1:ef00 /dev/nvme0n1    # EFI - 0,5GB
 /usr/bin/sgdisk -n 2:0:+16384MiB -t 2:8200 /dev/nvme0n1   # Swap - 16GB
 /usr/bin/sgdisk -n 3:0:+102400MiB -t 3:8300 /dev/nvme0n1  # / - 100GB
