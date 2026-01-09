@@ -7,9 +7,6 @@ sed -i 's/^ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
 # Синхронизация времени
 timedatectl set-ntp true
 
-# Очистка диска /dev/vda
-wipefs --all /dev/nvme0n1
-
 # Разметка GPT через sgdisk
 /usr/bin/sgdisk -Z /dev/nvme0n1
 /usr/bin/sgdisk -n 1:0:+512MiB -t 1:ef00 /dev/nvme0n1     # EFI 0.5GB
@@ -60,7 +57,7 @@ echo "FONT=cyr-sun16" >> /etc/vconsole.conf
 sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
 sed -i 's/^#ru_RU.UTF-8/ru_RU.UTF-8/' /etc/locale.gen
 locale-gen
-echo "LANG=ru_RU.UTF-8" > /etc/locale.conf
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
 # Часовой пояс, время
 ln -sf /usr/share/zoneinfo/Europe/Moscow /etc/localtime
@@ -91,36 +88,29 @@ grub-mkconfig -o /boot/grub/grub.cfg
 ############# ДОПОЛНИТЕЛЬНЫЕ ПАКЕТЫ ###############
 ###################################################
 
+# Обновление системы
+pacman -Syu --noconfirm
 
 # Пакеты
 pacman -S --noconfirm \
-  kitty firefox hyprland gcc htop flatpak
-
-#xdg-user-dirs xdg-utils man man-db zip unzip openssh blueman xdg-desktop-portal-wlr rsync
-#pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils
-#xdg-desktop-portal xdg-desktop-portal-hyprland
-#ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-hack-nerd
+  kitty firefox hyprland htop flatpak \
+  xdg-user-dirs xdg-utils man man-db zip unzip openssh blueman rsync \
+  pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \
+  xdg-desktop-portal xdg-desktop-portal-hyprland \
+  ttf-jetbrains-mono-nerd ttf-firacode-nerd ttf-hack-nerd \
+  mesa seatd waybar reflector dbus-broker polkit \
+  vulkan-radeon libva-mesa-driver mesa-vdpau
 
 # Создание директорий пользователя
-#xdg-user-dirs-update
+runuser -l user -c xdg-user-dirs-update
 
 # Включение служб
+systemctl enable reflector.timer
+systemctl enable seatd
 systemctl enable NetworkManager
-#systemctl enable dbus-broker
-#systemctl enable systemd-timesyncd
-#systemctl enable bluetooth
-
-# Загрузка скрипта пост установки
-#cd /home/user
-#wget https://raw.githubusercontent.com/Steepok/script-install/refs/heads/main/post-install.sh
-#chmod +x post-install.sh
-
-#Ссылка на tor
-echo "https://drive.google.com/file/d/1q-3bsZREJbUNUsdhfLbudJV4YFmyz2uC/view?usp=sharing" > a.txt
-cd /
-
-# Обновление системы
-pacman -Syu --noconfirm
+systemctl enable dbus-broker
+systemctl enable systemd-timesyncd
+systemctl enable bluetooth
 
 EOF
 
