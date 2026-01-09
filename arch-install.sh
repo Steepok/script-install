@@ -93,7 +93,7 @@ pacman -Syu --noconfirm
 
 # Пакеты
 pacman -S --noconfirm \
-  kitty firefox hyprland htop flatpak \
+  kitty firefox hyprland htop \
   xdg-user-dirs xdg-utils man man-db zip unzip openssh blueman rsync \
   pipewire pipewire-audio pipewire-alsa pipewire-pulse wireplumber pipewire-jack bluez bluez-utils \
   xdg-desktop-portal xdg-desktop-portal-hyprland \
